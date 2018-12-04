@@ -27,8 +27,8 @@ class Webscraper
 
 	#save json object as .json file
 	def save_json()
-		json = JSON.pretty_generate(@@json_data)
-		File.open("data.json", 'w') { |file| file.write(json) }
+		json = JSON.pretty_generate(@@json_data)					#parse
+		File.open("data.json", 'w') { |file| file.write(json) }		#save as json file
 		
 	end
 
@@ -49,9 +49,23 @@ class Webscraper
 end
 
 
-
-query = "it support analyst"
-location = "London Heathrow Terminal 3"
+input_array = ARGV
+query = input_array[0]
+location = input_array[1]
+number = input_array[2]
+query = ''
+location = ''
+temp_str = ''
+input_array.each do |item|
+	temp_str += item + ' '
+end
+splited_array = temp_str.split("-")
+query = splited_array[0]
+location = splited_array[1]
+query = query.strip!
+location = location.strip!
+# query = "it support analyst"				#input for query
+# location = "London Heathrow Terminal 3"		#input for location
 number = 5
 scrapper = Webscraper.new
 scrapper.get_data(query,location,number)
