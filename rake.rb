@@ -5,14 +5,16 @@ require 'json'
 
 class Webscraper
 	@@json_data = []
+
+	#extract job tags from web page
 	def extract_jobs(page_content)
 		page_content.css('.jobsearch-SerpJobCard').each do |job|
-			job_title = job.css('.jobtitle').text
-			company = job.css('.company').text
-			snip = job.css('.snip')
-			wage = snip.css('.no-wrap').text
-			summary = job.css('.summary').text
-			detail_link = job['data-jk']
+			job_title = job.css('.jobtitle').text   #get job title
+			company = job.css('.company').text		#get company name
+			snip = job.css('.snip')					
+			wage = snip.css('.no-wrap').text		#get wage
+			summary = job.css('.summary').text		#get summary
+			detail_link = job['data-jk']			#get detail link
 			@@json_data.push(
 				title:job_title,
 				company:company,
@@ -23,12 +25,14 @@ class Webscraper
 		end
 	end
 
+	#save json object as .json file
 	def save_json()
 		json = JSON.pretty_generate(@@json_data)
 		File.open("data.json", 'w') { |file| file.write(json) }
 		
 	end
 
+	#get data for all jobs from query,location, page number
 	def get_data(what,where,page_num)
 		page_num = page_num - 1
 		url = "https://www.indeed.co.uk/jobs?q="+what+"&l="+where+"&start="
@@ -46,10 +50,10 @@ end
 
 
 
-what = "it support analyst"
-where = "London Heathrow Terminal 3"
+query = "it support analyst"
+location = "London Heathrow Terminal 3"
 number = 5
 scrapper = Webscraper.new
-scrapper.get_data(what,where,number)
+scrapper.get_data(query,location,number)
 
 
