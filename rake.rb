@@ -53,8 +53,6 @@ input_array = ARGV
 query = input_array[0]
 location = input_array[1]
 number = input_array[2]
-query = ''
-location = ''
 temp_str = ''
 input_array.each do |item|
 	temp_str += item + ' '
